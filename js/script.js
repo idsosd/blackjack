@@ -51,8 +51,23 @@ const cards = ["2_of_clubs.png",
     "10_queen_of_hearts.png",
     "10_queen_of_spades.png"
 ]
-
+let cardamount = 2
 let random_nmbr = 0
+let playerpoints = 0
 random_nmbr = Math.floor(Math.random()*52)
-
 document.getElementById("playercard_1").src = "img/" + cards[random_nmbr]
+let card1value = cards[random_nmbr].split("_")
+playerpoints = parseInt(card1value[0])
+random_nmbr = Math.floor(Math.random()*52)
+document.getElementById("playercard_2").src = "img/" + cards[random_nmbr]
+let card2value = cards[random_nmbr].split("_")
+playerpoints += parseInt(card2value[0])
+document.getElementById("points").innerText = playerpoints
+
+function giveCard()
+{
+    let cardpushnumber = cardamount + 1
+    random_nmbr = Math.floor(Math.random()*52)
+    document.getElementById("playercard_" + cardpushnumber).src = "img/" + cards[random_nmbr]
+    cardamount++
+}
