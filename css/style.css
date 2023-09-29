@@ -1,0 +1,56 @@
+ /* Container for the images */
+ .image-container {
+    rotate: -20deg;
+    position: relative;
+    width: 300px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    margin-bottom: 100px;
+}
+.image {
+    width: 50%;
+}
+/* Style for the first image */
+.image1 {   
+    rotate: -5deg;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* This image will be on top */
+}
+
+/* Style for the second image */
+.image2 {
+    rotate: 5deg;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    z-index: 2; /* This image will be below the first */
+}
+.image3 {
+    rotate: 15deg;
+    position: absolute;
+    top: 0;
+    left: 40px;
+    z-index: 3; /* This image will be below the first */
+}
+.image4 {
+    rotate: 25deg;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    z-index: 4; /* This image will be below the first */
+}
+.image5 {
+    rotate: 35deg;
+    position: absolute;
+    top: 10px;
+    left: 80px;
+    z-index: 5; /* This image will be below the first */
+}
+.image6 {
+    rotate: 45deg;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+    z-index: 6; /* This image will be below the first */
+}
