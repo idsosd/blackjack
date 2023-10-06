@@ -54,3 +54,21 @@
     left: 100px;
     z-index: 6; /* This image will be below the first */
 }
+
+.tekst_container {
+    position: relative;
+}
+
+.tekst {
+    rotate: 20deg;
+    position: absolute;
+    margin-top: 70px;
+    top: 50%; /* Plaats de tekst verticaal in het midden van de container */
+    left: 40%; /* Plaats de tekst horizontaal in het midden van de container */
+    transform: translate(-50%, -50%); /* Centreer de tekst volledig */
+    padding: 20px; /* Voeg wat vulling toe aan de tekst voor leesbaarheid */
+    z-index: 7; /* Zorg ervoor dat de tekst bovenop de afbeelding wordt weergegeven */
+}
+
+
+
