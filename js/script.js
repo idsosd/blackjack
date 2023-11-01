@@ -1,3 +1,7 @@
+//scenario met 2 azen en een 9 gaat niet goed.........
+//hij rekent dan of beide 11 of beide 1, terwijl het een 11 en een 1 moet zijn
+//change_ace functie maken die een 1 omzet naar een 11 als het gunstiger is in
+//het scenario van 2 azen of meer
 const cards = ["2_of_clubs.png",
     "2_of_diamonds.png",
     "2_of_hearts.png",
@@ -54,11 +58,21 @@ const cards = ["2_of_clubs.png",
 let cardamount = 0
 let cardamountdealer = 1
 let random_nmbr = 0
-let playerpoints = 0
-let orplayerpoints = 0
-let dealerpoints = 0
+
 let playercardpoints = [];
 let orplayercardpoints = [];
+let playerpoints = 0
+let orplayerpoints = 0
+//de gunstigste playerpoints
+let actualplayerpoints = 0
+
+let dealercardpoints = [];
+let ordealercardpoints = [];
+let dealerpoints = 0
+let ordealerpoints = 0
+//de gunstigste dealerpoints
+let actualdealerpoints = 0
+
 startgame()
 
 function startgame()
@@ -72,9 +86,20 @@ function startgame()
     random_nmbr = Math.floor(Math.random()*52)
     document.getElementById("dealercard_1").src = "img/" + cards[random_nmbr]
     let dealercard1value = cards[random_nmbr].split("_")
-
-    dealerpoints += parseInt(dealercard1value[0])
+    dealercardpoints.push(dealercard1value[0])
+    if(parseInt(dealercard1value[0]) == 11){
+        ordealercardpoints.push('1')
+    }
+    else {
+        ordealercardpoints.push(dealercard1value[0])
+    }
+    
+    dealerpoints = countdealerpoints()
+    ordealerpoints = countordealerpoints()
     document.getElementById("dealerpoints").innerText = dealerpoints
+    if(dealerpoints != ordealerpoints){
+        document.getElementById("dealerpoints").innerText = dealerpoints + " | " + ordealerpoints
+    }
 }
 
 function give()
@@ -96,7 +121,7 @@ function give()
     orplayerpoints = countorplayerpoints()
     document.getElementById("playerpoints").innerText = playerpoints
     if(playerpoints != orplayerpoints){
-        document.getElementById("or_playerpoints").innerText = orplayerpoints
+        document.getElementById("playerpoints").innerText = playerpoints + " | " + orplayerpoints
     }
 
     cardamount++
@@ -107,22 +132,44 @@ function give()
 
 function givedealer()
 {
-    if(dealerpoints >= 17)
+    if(actualdealerpoints >= 17){
+        decidewinner()
         return
-    setTimeout(function(){ givedealer() }, 2000);
+    }
+    setTimeout(function(){ givedealer() }, 1500);
     let cardpushnumber = cardamountdealer + 1
     random_nmbr = Math.floor(Math.random()*52)
     document.getElementById("dealercard_" + cardpushnumber).src = "img/" + cards[random_nmbr]
     cardamountdealer++;
     let nextcardvalue = cards[random_nmbr].split("_")
-    dealerpoints += parseInt(nextcardvalue[0])
-    document.getElementById("dealerpoints").innerText = dealerpoints 
+    
+    dealercardpoints.push(nextcardvalue[0])
+    if(parseInt(nextcardvalue[0]) == 11){
+        ordealercardpoints.push('1')
+    }
+    else {
+        ordealercardpoints.push(nextcardvalue[0])
+    }
+    
+    dealerpoints = countdealerpoints()
+    ordealerpoints = countordealerpoints()
+    actualdealerpoints = Math.max(dealerpoints, ordealerpoints)
+    if(actualdealerpoints > 21)
+    {
+        actualdealerpoints = Math.min(dealerpoints, ordealerpoints)
+    }
+    document.getElementById("dealerpoints").innerText = dealerpoints
+    if(dealerpoints != ordealerpoints){
+        document.getElementById("dealerpoints").innerText = dealerpoints + " | " + ordealerpoints + " | " + actualdealerpoints
+    }
+    //dealerpoints += parseInt(nextcardvalue[0])
+    //document.getElementById("dealerpoints").innerText = dealerpoints 
 }
 
 function stand()
 {
     document.getElementById("givebtn").disabled = true
-    givedealer()
+    givedealer();
 }
 
 function endgame(doodofblackjack)
@@ -164,4 +211,50 @@ function countorplayerpoints()
         aantalpoints += parseInt(orplayercardpoints[teller])
     }
     return aantalpoints
+}
+
+function countdealerpoints()
+{
+    let aantalpoints = 0
+    for(teller = 0; teller < dealercardpoints.length; teller++)
+    {
+        aantalpoints += parseInt(dealercardpoints[teller])
+    }
+    return aantalpoints
+}
+
+function countordealerpoints()
+{
+    let aantalpoints = 0
+    for(teller = 0; teller < ordealercardpoints.length; teller++)
+    {
+        aantalpoints += parseInt(ordealercardpoints[teller])
+    }
+    return aantalpoints
+}
+
+function decidewinner()
+{
+    if(actualdealerpoints <= 21){
+        if(actualdealerpoints > playerpoints)
+        {
+            alert("dealer wint")
+            //inzet kwijt
+        }
+        else if (actualdealerpoints == playerpoints)
+        {
+            alert("draw")
+            //inzet terug
+        }
+        else
+        {
+            alert("speler wint")
+            //inzet uitbetaald
+        }
+    }
+    else
+    {
+        //dealer is dood
+        alert("speler wint")
+    }
 }
